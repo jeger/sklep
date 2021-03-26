@@ -16,10 +16,10 @@ public class CartController {
 
     private final Map<Integer, Cart> carts = new ConcurrentHashMap<>();
 
-    @PostMapping
-    public Cart createCart(int customerId) {
-        carts.putIfAbsent();
-
-
-    }
+//    @PostMapping
+//    public Cart createCart(int customerId) {
+//        carts.putIfAbsent();
+//
+//
+//    }
 }
