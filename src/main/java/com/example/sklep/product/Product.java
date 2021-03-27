@@ -11,6 +11,7 @@ import javax.persistence.Id;
 //@Setter
 @Getter
 public class Product {
+
     @Id
     @GeneratedValue
     private long productId;
