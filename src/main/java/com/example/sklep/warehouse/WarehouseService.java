@@ -12,8 +12,8 @@ public class WarehouseService {
         this.warehouseRepository = warehouseRepository;
     }
 
-    public Integer checkProductAmount(int productId) throws ProductNotFoundException{
+    public Integer checkProductAmount(int productId) throws ProductNotFoundException {
         return warehouseRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productId));
+                .orElseThrow(() -> new ProductNotFoundException(productId)).amount;
     }
 }

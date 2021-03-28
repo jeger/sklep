@@ -19,7 +19,5 @@ public class CartFacade {
         if (availableProductAmount<amountOfProduct){
             throw new TooFewProductAvailableException(availableProductAmount,amountOfProduct);
         }
-
-
     }
 }

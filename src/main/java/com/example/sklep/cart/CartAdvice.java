@@ -1,5 +1,6 @@
 package com.example.sklep.cart;
 
+import com.example.sklep.TooFewProductAvailableException;
 import com.example.sklep.warehouse.ProductNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -13,7 +14,21 @@ public class CartAdvice {
     @ResponseBody
     @ExceptionHandler(ProductNotFoundException.class)
     @ResponseStatus(HttpStatus.NOT_FOUND)
-    String productNotFoundExceptionHandler(ProductNotFoundException ex){
+    String productNotFoundExceptionHandler(ProductNotFoundException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(TooFewProductAvailableException.class)
+    @ResponseStatus(HttpStatus.FORBIDDEN)
+    String tooFewProductAvailableExceptionHandler(TooFewProductAvailableException ex) {
+        return ex.getMessage();
+    }
+
+    @ResponseBody
+    @ExceptionHandler(CartNotFoundException.class)
+    @ResponseStatus(HttpStatus.BAD_REQUEST)
+    String cartNotFoundExceptionHandler(CartNotFoundException ex) {
         return ex.getMessage();
     }
 }
