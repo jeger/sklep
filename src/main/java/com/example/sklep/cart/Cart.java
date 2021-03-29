@@ -6,7 +6,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Optional;
 
-@Component
+
 public class Cart {
     //TODO Co ze sprawdzaniem ilosci produktów, które mozna dodac??
     private final Map<Integer, Integer> productAmountMap = new HashMap<>();

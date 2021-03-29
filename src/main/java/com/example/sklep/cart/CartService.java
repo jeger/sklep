@@ -1,7 +1,6 @@
 package com.example.sklep.cart;
 
 import com.example.sklep.TooFewProductAvailableException;
-import com.example.sklep.warehouse.WarehouseEntity;
 import org.springframework.stereotype.Service;
 
 import java.util.Map;
@@ -13,11 +12,11 @@ public class CartService {
     private final Map<Integer, Cart> carts = new ConcurrentHashMap<>();
 
 
-    public void addProductToCart(int customerId,int productAmountInWarehouse, ProductDto productDto) throws CartNotFoundException {
+    public void addProductToCart(int customerId,int productAmountInWarehouse, ProductAddedToCartDTO productAddedToCartDTO) throws CartNotFoundException {
         Cart customerCart = carts.get(customerId);
 
-        int productId = productDto.getProductId();
-        int amountToAdd = productDto.getAmount();
+        int productId = productAddedToCartDTO.getProductId();
+        int amountToAdd = productAddedToCartDTO.getAmount();
 
         Optional<Integer> amountByProductIdInCart = customerCart.getAmountByProductIdInCart(productId);
 
@@ -38,5 +37,9 @@ public class CartService {
 
     public void createCart(Integer customerId) {
         carts.putIfAbsent(customerId, new Cart());
+    }
+
+    public Cart getCart(int customerId) {
+        return this.carts.get(customerId);
     }
 }

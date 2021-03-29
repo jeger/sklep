@@ -18,8 +18,7 @@ public class CartController {
     }
 
     @PutMapping("/{customerId}")
-    //TODO stworzyc DTO do productId i amountOfProduct
-    public void addProduct(@PathVariable Integer customerId, @RequestBody ProductDto productDto) {
-        cartFacade.addProductToCart(customerId, productDto);
+    public void addProduct(@PathVariable Integer customerId, @RequestBody ProductAddedToCartDTO productAddedToCartDTO) {
+        cartFacade.addProductToCart(customerId, productAddedToCartDTO);
     }
 }

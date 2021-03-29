@@ -1,7 +1,6 @@
 package com.example.sklep.cart;
 
-import com.example.sklep.TooFewProductAvailableException;
-import com.example.sklep.warehouse.ProductNotFoundException;
+
 import com.example.sklep.warehouse.WarehouseFacade;
 import org.springframework.stereotype.Component;
 
@@ -16,21 +15,17 @@ public class CartFacade {
         this.cartService = cartService;
     }
 
-    public void checkProductAvailability(int productId, int amountOfProduct) throws ProductNotFoundException, TooFewProductAvailableException {
-        int availableProductAmount = warehouseFacade.checkProductAmount(productId);
-
-        if (availableProductAmount<amountOfProduct){
-            throw new TooFewProductAvailableException(availableProductAmount,amountOfProduct);
-        }
-    }
-
-    public void addProductToCart(int customerId, ProductDto productDto) {
+    public void addProductToCart(int customerId, ProductAddedToCartDTO productAddedToCartDTO) {
         cartService.checkIfCartExist(customerId);
-        int currProductAmount = warehouseFacade.checkProductAmount(productDto.getProductId());
-        cartService.addProductToCart(customerId,currProductAmount, productDto);
+        int currProductAmount = warehouseFacade.checkProductAmount(productAddedToCartDTO.getProductId());
+        cartService.addProductToCart(customerId,currProductAmount, productAddedToCartDTO);
     }
 
     public void createCart(Integer customerId) {
         cartService.createCart(customerId);
+    }
+
+    public Cart getCardForCustomer(int customerId) {
+        return cartService.getCart(customerId);
     }
 }
