@@ -16,7 +16,7 @@ public class ProductController {
 
 
     @GetMapping
-    public Collection<Product> findAll() {
+    public Collection<ProductEntity> findAll() {
         return repository.findAll();
     }
 }

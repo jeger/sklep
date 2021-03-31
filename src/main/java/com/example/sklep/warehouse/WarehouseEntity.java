@@ -15,8 +15,8 @@ public class WarehouseEntity {
 
     @Id
     @GeneratedValue
-    Integer productId;
+    private Integer productId;
 
-    Integer amount;
+    private Integer amount;
 
 }

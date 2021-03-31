@@ -1,5 +1,6 @@
 package com.example.sklep.warehouse;
 
+import com.example.sklep.product.Product;
 import org.springframework.stereotype.Component;
 
 @Component

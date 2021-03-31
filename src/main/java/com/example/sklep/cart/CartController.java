@@ -17,7 +17,7 @@ public class CartController {
         cartFacade.createCart(customerId);
     }
 
-    @PutMapping("/{customerId}")
+    @PatchMapping("/{customerId}")
     public void addProduct(@PathVariable Integer customerId, @RequestBody ProductAddedToCartDTO productAddedToCartDTO) {
         cartFacade.addProductToCart(customerId, productAddedToCartDTO);
     }

@@ -8,6 +8,6 @@ import lombok.Getter;
 @Getter
 @AllArgsConstructor
 public final class ProductAddedToCartDTO {
-    final int productId;
-    final int amount;
+    final private int productId;
+    final private int amount;
 }
