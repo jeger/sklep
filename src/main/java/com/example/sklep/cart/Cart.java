@@ -2,16 +2,15 @@ package com.example.sklep.cart;
 
 import com.example.sklep.product.Product;
 
-import java.util.HashMap;
+import java.util.Collections;
 import java.util.Map;
 import java.util.Optional;
+import java.util.concurrent.ConcurrentHashMap;
 
 public class Cart {
-    //TODO Co ze sprawdzaniem ilosci produktów, które mozna dodac??
-    private final Map<Product, Integer> productAmountMap = new HashMap<>();
+    private final Map<Product, Integer> productAmountMap = new ConcurrentHashMap<>();
 
-
-    public void pushProduct(Product product, int amountOfProduct) {
+    public synchronized void pushProduct(Product product, int amountOfProduct) {
         productAmountMap.computeIfPresent(product, (productCurr, currAmount) -> currAmount += amountOfProduct);
         productAmountMap.putIfAbsent(product, amountOfProduct);
     }
@@ -28,5 +27,10 @@ public class Cart {
         return productAmountMap.keySet()
                 .stream().filter(product -> product.getId() == productId)
                 .findFirst();
+    }
+
+    public Map<Product, Integer> getProductAmountMap() {
+        //TODO Czy robic głębokie kopiowanie Mapy???
+        return Collections.unmodifiableMap(productAmountMap);
     }
 }

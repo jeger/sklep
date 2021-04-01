@@ -7,7 +7,6 @@ import com.example.sklep.warehouse.WarehouseFacade;
 import org.springframework.stereotype.Component;
 
 import java.util.Optional;
-import java.util.function.Supplier;
 
 @Component
 public class CartFacade {
@@ -23,12 +22,12 @@ public class CartFacade {
     }
 
     public void addProductToCart(int customerId, ProductAddedToCartDTO productAddedToCartDTO) throws CartNotFoundException {
-        Cart customerCart = cartService.checkIfCartExist(customerId);
+        Cart customerCart = cartService.getCartOrThrow(customerId);
 
         int productId = productAddedToCartDTO.getProductId();
         int amountToAdd = productAddedToCartDTO.getAmount();
 
-        Optional<Product> productByIdOptional = cartService.getProductFromCartById(customerCart, productId);
+        Optional<Product> productByIdOptional = customerCart.getProductById(productId);
         Product product = productByIdOptional.orElseGet(() -> productFacade.getProductById(productId));
 
         int expectedNewProductAmount = cartService.calculateExpectedNewProductAmount(product, customerCart, amountToAdd);
@@ -41,8 +40,8 @@ public class CartFacade {
         cartService.createCart(customerId);
     }
 
-    public Cart getCardForCustomer(int customerId) {
-        return cartService.getCart(customerId);
+    public Cart getCartOrThrow(int customerId) {
+        return cartService.getCartOrThrow(customerId);
     }
 }
 

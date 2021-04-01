@@ -15,5 +15,5 @@ import java.math.BigDecimal;
 public final class Product {
     private final int id;
     private final String name;
-    private final BigDecimal price;
+    private final BigDecimal priceUSD;
 }

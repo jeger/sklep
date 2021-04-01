@@ -16,7 +16,7 @@ public class OrderFacade {
 
 
     public OrderDTO calculateOrder(int customerId) {
-        Cart cardForCustomer = cartFacade.getCardForCustomer(customerId);
+        Cart cardForCustomer = cartFacade.getCartOrThrow(customerId);
         return orderService.calculateOrder(cardForCustomer);
     }
 }

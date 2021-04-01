@@ -1,9 +1,6 @@
 package com.example.sklep.product;
 
-import lombok.AllArgsConstructor;
-import lombok.EqualsAndHashCode;
-import lombok.Getter;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 
@@ -11,6 +8,7 @@ import java.math.BigDecimal;
 @ToString
 @EqualsAndHashCode
 @Getter
+@Builder
 public final class ProductDTO {
     private final int id;
     private final String name;

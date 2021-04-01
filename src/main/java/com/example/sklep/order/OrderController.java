@@ -14,6 +14,8 @@ public class OrderController {
 
     @GetMapping("/{customerId}")
     public OrderDTO calculateOffer(@PathVariable Integer customerId) {
-        return null;
+        return orderFacade.calculateOrder(customerId);
     }
+
+
 }

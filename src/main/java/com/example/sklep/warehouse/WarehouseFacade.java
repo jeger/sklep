@@ -13,10 +13,6 @@ public class WarehouseFacade {
         this.warehouseService = warehouseService;
     }
 
-    public int checkProductAmount(int productId) throws ProductNotFoundException {
-        return warehouseService.checkProductAmount(productId);
-    }
-
     public void checkIfAvailable(int productId, int expectedNewProductAmount) {
         int productAmountInWarehouse = warehouseService.checkProductAmount(productId);
 

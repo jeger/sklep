@@ -1,6 +1,5 @@
 package com.example.sklep.cart;
 
-import com.example.sklep.TooFewProductAvailableException;
 import com.example.sklep.product.Product;
 import org.springframework.stereotype.Service;
 
@@ -26,18 +25,7 @@ public class CartService {
         return currentNumberOfThisProductInCart + amountToAdd;
     }
 
-    public void checkIfProductAmountEnough(Product product, int customerId, int productAmountInWarehouse, int amountToAdd) {
-        Cart customerCart = carts.get(customerId);
-
-        int currentNumberOfThisProductInCart = customerCart.getAmountByProductInCart(product);
-
-        int expectedNewProductAmount = currentNumberOfThisProductInCart + amountToAdd;
-        if (productAmountInWarehouse < expectedNewProductAmount) {
-            throw new TooFewProductAvailableException(productAmountInWarehouse, expectedNewProductAmount);
-        }
-    }
-
-    public Cart checkIfCartExist(int customerId) throws CartNotFoundException {
+    public Cart getCartOrThrow(int customerId) throws CartNotFoundException {
         Cart cart = carts.get(customerId);
         if (cart == null) {
             throw new CartNotFoundException(customerId);
@@ -47,13 +35,5 @@ public class CartService {
 
     public void createCart(Integer customerId) {
         carts.putIfAbsent(customerId, new Cart());
-    }
-
-    public Cart getCart(int customerId) {
-        return this.carts.get(customerId);
-    }
-
-    public Optional<Product> getProductFromCartById(Cart customerCart, int productId) {
-        return customerCart.getProductById(productId);
     }
 }

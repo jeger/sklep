@@ -20,7 +20,7 @@ public class ProductService {
         return Product.builder()
                 .id(productEntity.getProductId())
                 .name(productEntity.getName())
-                .price(productEntity.getPrice())
+                .priceUSD(productEntity.getPrice())
                 .build();
     }
 }
