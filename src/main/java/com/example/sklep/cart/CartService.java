@@ -19,25 +19,30 @@ public class CartService {
         customerCart.pushProduct(product, amountToAdd);
     }
 
-    public void checkIfProductAmountEnough(int customerId, int productAmountInWarehouse, ProductAddedToCartDTO productAddedToCartDTO) {
+
+    public int calculateExpectedNewProductAmount(Product product, Cart customerCart, int amountToAdd) {
+        int currentNumberOfThisProductInCart = customerCart.getAmountByProductInCart(product);
+
+        return currentNumberOfThisProductInCart + amountToAdd;
+    }
+
+    public void checkIfProductAmountEnough(Product product, int customerId, int productAmountInWarehouse, int amountToAdd) {
         Cart customerCart = carts.get(customerId);
 
-        int productId = productAddedToCartDTO.getProductId();
-        int amountToAdd = productAddedToCartDTO.getAmount();
+        int currentNumberOfThisProductInCart = customerCart.getAmountByProductInCart(product);
 
-        Optional<Integer> amountByProductIdInCart = customerCart.getAmountByProductIdInCart(productId);
-
-        int expectedNewProductAmount = amountByProductIdInCart.orElse(0) + amountToAdd;
+        int expectedNewProductAmount = currentNumberOfThisProductInCart + amountToAdd;
         if (productAmountInWarehouse < expectedNewProductAmount) {
             throw new TooFewProductAvailableException(productAmountInWarehouse, expectedNewProductAmount);
         }
     }
 
-    public void checkIfCartExist(int customerId) {
+    public Cart checkIfCartExist(int customerId) throws CartNotFoundException {
         Cart cart = carts.get(customerId);
         if (cart == null) {
             throw new CartNotFoundException(customerId);
         }
+        return cart;
     }
 
     public void createCart(Integer customerId) {
@@ -48,8 +53,7 @@ public class CartService {
         return this.carts.get(customerId);
     }
 
-    public Optional<Product> getProductFromCartById(int costumerId, int productId) {
-        Cart customerCart = carts.get(costumerId);
+    public Optional<Product> getProductFromCartById(Cart customerCart, int productId) {
         return customerCart.getProductById(productId);
     }
 }

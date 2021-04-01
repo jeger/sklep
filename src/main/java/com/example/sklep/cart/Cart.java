@@ -16,8 +16,12 @@ public class Cart {
         productAmountMap.putIfAbsent(product, amountOfProduct);
     }
 
-    public Optional<Integer> getAmountByProductIdInCart(int productId) {
-        return Optional.ofNullable(productAmountMap.get(productId));
+    public int getAmountByProductInCart(Product product) {
+        Integer amountInCart = productAmountMap.get(product);
+        if (amountInCart == null) {
+            return 0;
+        }
+        return amountInCart;
     }
 
     public Optional<Product> getProductById(int productId) {

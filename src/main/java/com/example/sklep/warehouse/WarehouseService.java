@@ -14,6 +14,7 @@ public class WarehouseService {
 
     public Integer checkProductAmount(int productId) throws ProductNotFoundException {
         return warehouseRepository.findById(productId)
-                .orElseThrow(() -> new ProductNotFoundException(productId)).getAmount();
+                .orElseThrow(() -> new ProductNotFoundException(ProductNotFoundException.WAREHOUSE_MESSAGE, productId))
+                .getAmount();
     }
 }

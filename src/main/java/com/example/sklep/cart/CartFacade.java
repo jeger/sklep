@@ -22,24 +22,19 @@ public class CartFacade {
         this.productFacade = productFacade;
     }
 
-    public void addProductToCart(int customerId, ProductAddedToCartDTO productAddedToCartDTO) {
-        //Product amount validation
-        cartService.checkIfCartExist(customerId);
-        final int productId = productAddedToCartDTO.getProductId();
-        int currProductAmount = warehouseFacade.checkProductAmount(productId);
-        cartService.checkIfProductAmountEnough(customerId, currProductAmount, productAddedToCartDTO);
+    public void addProductToCart(int customerId, ProductAddedToCartDTO productAddedToCartDTO) throws CartNotFoundException {
+        Cart customerCart = cartService.checkIfCartExist(customerId);
 
-        Optional<Product> productByIdOptional = cartService.getProductFromCartById(customerId, productId);
-        Product productById = productByIdOptional.orElseGet(new Supplier<Product>() {
-            @Override
-            public Product get() {
-                return productFacade.getProductById(productId);
-            }
-        });
+        int productId = productAddedToCartDTO.getProductId();
+        int amountToAdd = productAddedToCartDTO.getAmount();
 
-//        To samo co wyżej tylko lambda
-//        Product productById = productByIdOptional.orElseGet(() -> productFacade.getProductById(productAddedToCartDTO.getProductId()));
-        cartService.addProductToCart(productById, productAddedToCartDTO.getAmount(), customerId);
+        Optional<Product> productByIdOptional = cartService.getProductFromCartById(customerCart, productId);
+        Product product = productByIdOptional.orElseGet(() -> productFacade.getProductById(productId));
+
+        int expectedNewProductAmount = cartService.calculateExpectedNewProductAmount(product, customerCart, amountToAdd);
+        warehouseFacade.checkIfAvailable(productId, expectedNewProductAmount);
+
+        cartService.addProductToCart(product, amountToAdd, customerId);
     }
 
     public void createCart(Integer customerId) {
@@ -50,3 +45,10 @@ public class CartFacade {
         return cartService.getCart(customerId);
     }
 }
+
+//        Product product = productByIdOptional.orElseGet(new Supplier<Product>() {
+//            @Override
+//            public Product get() {
+//                return productFacade.getProductById(productId);
+//            }
+//        });
