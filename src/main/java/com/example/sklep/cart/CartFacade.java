@@ -25,15 +25,14 @@ public class CartFacade {
         Cart customerCart = cartService.getCartOrThrow(customerId);
 
         int productId = productAddedToCartDTO.getProductId();
-        int amountToAdd = productAddedToCartDTO.getAmount();
+        int productAmount = productAddedToCartDTO.getAmount();
 
         Optional<Product> productByIdOptional = customerCart.getProductById(productId);
         Product product = productByIdOptional.orElseGet(() -> productFacade.getProductById(productId));
 
-        int expectedNewProductAmount = cartService.calculateExpectedNewProductAmount(product, customerCart, amountToAdd);
-        warehouseFacade.checkIfAvailable(productId, expectedNewProductAmount);
+        warehouseFacade.checkIfAvailable(productId, productAmount);
 
-        cartService.addProductToCart(product, amountToAdd, customerId);
+        cartService.setProductToCart(product, productAmount, customerId);
     }
 
     public void createCart(Integer customerId) {

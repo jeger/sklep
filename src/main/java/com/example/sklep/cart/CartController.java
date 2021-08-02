@@ -5,8 +5,6 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 
-import java.net.URI;
-
 @RestController
 @RequestMapping("/cart")
 @AllArgsConstructor
@@ -23,7 +21,8 @@ public class CartController {
     }
 
     @PatchMapping("/{customerId}")
-    public ResponseEntity<Object> addProduct(@PathVariable Integer customerId, @RequestBody ProductAddedToCartDTO productAddedToCartDTO) {
+    public ResponseEntity<Object> setProductAndAmount(@PathVariable Integer customerId,
+                                                      @RequestBody ProductAddedToCartDTO productAddedToCartDTO) {
         cartFacade.addProductToCart(customerId, productAddedToCartDTO);
         return ResponseEntity.status(HttpStatus.OK).build();
     }

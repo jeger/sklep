@@ -16,6 +16,4 @@ public class OrderController {
     public OrderDTO calculateOffer(@PathVariable Integer customerId) {
         return orderFacade.calculateOrder(customerId);
     }
-
-
 }

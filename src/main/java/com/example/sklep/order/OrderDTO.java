@@ -2,15 +2,15 @@ package com.example.sklep.order;
 
 
 import com.example.sklep.product.ProductDTO;
-import lombok.Builder;
-import lombok.EqualsAndHashCode;
-import lombok.ToString;
+import lombok.*;
 
 import java.math.BigDecimal;
 import java.util.Map;
 
-@Builder
+@AllArgsConstructor
 @ToString
+@Builder
+@Getter
 @EqualsAndHashCode
 public final class OrderDTO {
     private final Map<ProductDTO, Integer> productToNumberMap;
