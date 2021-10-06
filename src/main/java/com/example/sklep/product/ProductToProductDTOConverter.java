@@ -7,9 +7,6 @@ import org.springframework.stereotype.Component;
 public class ProductToProductDTOConverter implements Converter<Product, ProductDTO> {
     @Override
     public ProductDTO convert(Product product) {
-        if (product == null) {
-            return null;
-        }
         return ProductDTO.builder()
                 .id(product.getId())
                 .name(product.getName())
