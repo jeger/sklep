@@ -13,7 +13,7 @@ public class WarehouseService {
     }
 
     public Integer checkProductAmount(int productId) throws ProductNotFoundException {
-        return warehouseRepository.findById(productId)
+        return warehouseRepository.findByProductEntityProductId(productId)
                 .orElseThrow(() -> new ProductNotFoundException(ProductNotFoundException.WAREHOUSE_MESSAGE, productId))
                 .getAmount();
     }

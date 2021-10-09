@@ -2,8 +2,8 @@ package com.example.sklep.order;
 
 import com.example.sklep.cart.Cart;
 import com.example.sklep.product.Product;
-import com.example.sklep.product.ProductDTO;
-import com.example.sklep.product.ProductToProductDTOConverter;
+import com.example.sklep.product.dto.ProductDTO;
+import com.example.sklep.product.converters.ProductToProductDTOConv;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
@@ -14,10 +14,10 @@ import java.util.stream.Collectors;
 @Service
 public class OrderService {
     private final Map<Integer, OrderDTO> customerToOrderDTOMap = new ConcurrentHashMap<>();
-    private final ProductToProductDTOConverter productToProductDTOConverter;
+    private final ProductToProductDTOConv productToProductDTOConv;
 
-    public OrderService(ProductToProductDTOConverter productToProductDTOConverter) {
-        this.productToProductDTOConverter = productToProductDTOConverter;
+    public OrderService(ProductToProductDTOConv productToProductDTOConv) {
+        this.productToProductDTOConv = productToProductDTOConv;
     }
 
 
@@ -27,7 +27,7 @@ public class OrderService {
         Map<ProductDTO, Integer> productToNumberMap =
                 productAmountMap.entrySet().stream()
                         .collect(Collectors.toMap(
-                                e -> productToProductDTOConverter.convert(e.getKey()),
+                                e -> productToProductDTOConv.convert(e.getKey()),
                                 e -> e.getValue()
                         ));
 

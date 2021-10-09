@@ -1,4 +1,4 @@
-package com.example.sklep.product;
+package com.example.sklep.product.dto;
 
 import lombok.*;
 

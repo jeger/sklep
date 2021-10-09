@@ -1,4 +1,4 @@
-package com.example.sklep.product;
+package com.example.sklep.product.entites;
 
 import com.example.sklep.warehouse.WarehouseEntity;
 import lombok.*;

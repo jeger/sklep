@@ -1,4 +1,4 @@
-package com.example.sklep.product;
+package com.example.sklep.product.entites;
 
 import lombok.*;
 
@@ -19,6 +19,6 @@ public class ProductDetailsEntity {
 
     private String imagesPaths;
 
-    @OneToOne(mappedBy = "productDetailsEntity",fetch = FetchType.LAZY)
+    @OneToOne(mappedBy = "productDetailsEntity", fetch = FetchType.LAZY)
     private ProductEntity productEntity;
 }

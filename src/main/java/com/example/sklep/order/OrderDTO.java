@@ -1,7 +1,7 @@
 package com.example.sklep.order;
 
 
-import com.example.sklep.product.ProductDTO;
+import com.example.sklep.product.dto.ProductDTO;
 import lombok.*;
 
 import java.math.BigDecimal;
