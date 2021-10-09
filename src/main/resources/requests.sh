@@ -8,10 +8,19 @@ response=$(curl -i --request POST localhost:8080/public/login \
 
 token=$(echo "$response" | grep "Authorization" | awk '{print $2}')
 
+# Create cart
 curl -X POST localhost:8080/cart/1 -H "Accept: application/json" -H "Authorization: Bearer $token"
 
+# Put into the cart
 curl -X PATCH localhost:8080/cart/1 -H "Accept: application/json" -H "Authorization: Bearer $token" \
   -H 'Content-type:application/json' -d \
   '{"productId": "2", "amount": "4"}'
 
-curl -v localhost:8080/order/1 -H "Accept: application/json" -H "Authorization: Bearer $token" | json_pp
+# Calculate cart
+curl -v localhost:8080/order/1 -H "Authorization: Bearer $token" | json_pp
+
+# See all products list
+curl -v localhost:8080/products | json_pp
+
+# See details about product with productId
+curl -v localhost:8080/products/details/2 | json_pp
