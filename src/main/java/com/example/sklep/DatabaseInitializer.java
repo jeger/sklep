@@ -96,9 +96,12 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
         List<ProductEntity> productEntitiesList = productRepository.saveAll(productsList);
 
         Random random = new Random();
-        List<WarehouseEntity> warehouseEntityList = productEntitiesList.stream().map(productEntity -> WarehouseEntity.builder()
+        int min = 20;
+        int max = 101;
+        List<WarehouseEntity> warehouseEntityList = productEntitiesList.stream()
+                .map(productEntity -> WarehouseEntity.builder()
                         .productEntity(productEntity)
-                        .amount(random.nextInt(20, 101))
+                        .amount(random.nextInt(max - min) + min)
                         .build())
                 .collect(Collectors.toList());
 
