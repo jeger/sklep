@@ -1,23 +1,33 @@
 package com.example.sklep.user;
 
-import lombok.*;
+import com.example.sklep.deliveryaddress.DeliveryAddressEntity;
+import com.fasterxml.jackson.annotation.JsonManagedReference;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Getter;
+import lombok.NoArgsConstructor;
+import lombok.Setter;
 import org.springframework.data.annotation.CreatedDate;
 import org.springframework.data.annotation.LastModifiedDate;
 import org.springframework.data.jpa.domain.support.AuditingEntityListener;
 
+import javax.persistence.CascadeType;
 import javax.persistence.Entity;
 import javax.persistence.EntityListeners;
+import javax.persistence.FetchType;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
+import javax.persistence.OneToMany;
 import java.time.LocalDateTime;
+import java.util.Set;
 
-@Entity(name = "User")
 @Getter
 @Setter
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
 @EntityListeners(AuditingEntityListener.class)
+@Entity(name = "User")
 public class UserEntity {
 
     @Id
@@ -31,6 +41,11 @@ public class UserEntity {
     private LocalDateTime modifiedAt;
 
     private boolean enabled;
+
+    @OneToMany(mappedBy = "userEntity", cascade = CascadeType.ALL,
+            fetch = FetchType.LAZY)
+    @JsonManagedReference
+    private Set<DeliveryAddressEntity> deliveryAddressEntity;
 
     private String username;
     private String password;

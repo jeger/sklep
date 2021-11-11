@@ -16,7 +16,7 @@ import java.math.BigDecimal;
 @Entity(name = "Product")
 public class ProductEntity {
     @Id
-    @GeneratedValue(strategy = GenerationType.SEQUENCE)
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int productId;
 
     private String name;

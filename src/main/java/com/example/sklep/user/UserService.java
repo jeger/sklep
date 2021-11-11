@@ -10,6 +10,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 
 import javax.validation.ValidationException;
+import java.util.List;
 
 @Service
 public class UserService implements UserDetailsService {
@@ -58,4 +59,8 @@ public class UserService implements UserDetailsService {
     }
 
 
+    @Transactional
+    public List<UserEntity> getAllUsers() {
+        return userRepository.findAll();
+    }
 }

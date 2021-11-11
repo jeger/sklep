@@ -1,12 +1,17 @@
 package com.example.sklep;
 
+import com.example.sklep.deliveryaddress.DeliveryAddressEntity;
 import com.example.sklep.product.entites.ProductDetailsEntity;
 import com.example.sklep.product.entites.ProductEntity;
 import com.example.sklep.product.repository.ProductRepository;
+import com.example.sklep.user.UserDto;
+import com.example.sklep.user.UserEntity;
+import com.example.sklep.user.UserRepository;
 import com.example.sklep.user.UserService;
 import com.example.sklep.user.requests.CreateUserRequest;
 import com.example.sklep.warehouse.WarehouseEntity;
 import com.example.sklep.warehouse.WarehouseRepository;
+import com.google.common.collect.ImmutableSet;
 import org.springframework.boot.context.event.ApplicationReadyEvent;
 import org.springframework.context.ApplicationListener;
 import org.springframework.stereotype.Component;
@@ -22,22 +27,20 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
     private final UserService userService;
     private final ProductRepository productRepository;
     private final WarehouseRepository warehouseRepository;
+    private final UserRepository userRepository;
 
-    public DatabaseInitializer(UserService userService, ProductRepository productRepository, WarehouseRepository warehouseRepository) {
+    public DatabaseInitializer(UserService userService, ProductRepository productRepository,
+                               WarehouseRepository warehouseRepository, UserRepository userRepository) {
         this.userService = userService;
         this.productRepository = productRepository;
         this.warehouseRepository = warehouseRepository;
+        this.userRepository = userRepository;
     }
 
     @Override
     public void onApplicationEvent(ApplicationReadyEvent applicationReadyEvent) {
-        userService.create(CreateUserRequest.builder()
-                .username("krzysieksr")
-                .password("dupa")
-                .rePassword("dupa")
-                .build());
-
         createProducts();
+        createUsersWithAddresses();
     }
 
     @Transactional
@@ -107,4 +110,60 @@ public class DatabaseInitializer implements ApplicationListener<ApplicationReady
 
         warehouseRepository.saveAll(warehouseEntityList);
     }
+
+    @Transactional
+    public void createUsersWithAddresses() {
+        // create user
+        UserDto userDto_1 = userService.create(CreateUserRequest.builder()
+                .username("krzysieksr")
+                .password("dupa")
+                .rePassword("dupa")
+                .build());
+        //Adding delivery addresses
+        UserEntity userEntity_1 = userRepository.findById(userDto_1.getUserId()).get();
+        ImmutableSet<DeliveryAddressEntity> addressSet_1 = ImmutableSet.of(DeliveryAddressEntity.builder()
+                        .street("Zachodnia 77")
+                        .postCode("32-321")
+                        .city("Krakow")
+                        .userEntity(userEntity_1)
+                        .build(),
+                DeliveryAddressEntity.builder()
+                        .street("Kosciuszki 233")
+                        .postCode("33-333")
+                        .city("Gdansk")
+                        .userEntity(userEntity_1)
+                        .build(),
+                DeliveryAddressEntity.builder()
+                        .street("Czarnowiejska 666")
+                        .postCode("66-666")
+                        .city("Warszawa")
+                        .userEntity(userEntity_1)
+                        .build());
+        userEntity_1.setDeliveryAddressEntity(addressSet_1);
+        userRepository.save(userEntity_1);
+
+        // create user
+        UserDto userDto_2 = userService.create(CreateUserRequest.builder()
+                .username("marcin")
+                .password("chuj")
+                .rePassword("chuj")
+                .build());
+        //Adding delivery addresses
+        UserEntity userEntity_2 = userRepository.findById(userDto_2.getUserId()).get();
+        ImmutableSet<DeliveryAddressEntity> addressSet_2 = ImmutableSet.of(DeliveryAddressEntity.builder()
+                        .street("Florianska 22")
+                        .postCode("51-512")
+                        .city("Poznan")
+                        .userEntity(userEntity_2)
+                        .build(),
+                DeliveryAddressEntity.builder()
+                        .street("Kwiatowa 14")
+                        .postCode("22-223")
+                        .city("Wroclaw")
+                        .userEntity(userEntity_2)
+                        .build());
+        userEntity_2.setDeliveryAddressEntity(addressSet_2);
+        userRepository.save(userEntity_2);
+    }
+
 }
